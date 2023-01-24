@@ -16,16 +16,15 @@ return new class extends Migration
         Schema::create('trains', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("agency");
-            $table->string("departure_station");
-            $table->string("arrival_station");
-            $table->string("departure_time");
-            $table->string("arrival_station");
-            $table->string("train_code");
+            $table->string("agency")->nullable();
+            $table->string("departure_station")->nullable();
+            $table->string("arrival_station")->nullable();
+            $table->string("departure_time")->nullable();
+            $table->string("arrival_time")->nullable();
             $table->string("train_code")->unique();
-            $table->int("number of carriages");
-            $table->boolean("on_time");
-            $table->boolean("cancelled");
+            $table->string("number of carriages")->nullable();
+            $table->boolean("on_time")->nullable();
+            $table->boolean("cancelled")->nullable();
         });
     }
 
@@ -39,6 +38,18 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trains');
+        Schema::dropIfExists('trains', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->dropColumn("agency");
+            $table->dropColumn("departure_station");
+            $table->dropColumn("arrival_station");
+            $table->dropColumn("departure_time");
+            $table->dropColumn("arrival_station");
+            $table->dropColumn("train_code")->unique();
+            $table->dropColumn("number of carriages");
+            $table->dropColumn("on_time");
+            $table->dropColumn("cancelled");
+        });
     }
 };
